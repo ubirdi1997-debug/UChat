@@ -18,8 +18,6 @@ const theme = createTheme({
 });
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-
   // For demo purposes, allow access even without OAuth configured
   // In production, this would strictly enforce authentication
   return <>{children}</>;
