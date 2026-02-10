@@ -1,0 +1,2 @@
+This would be a 512x512 PNG icon in production.
+For demo purposes, use the vite.svg or create actual PNG icons.
