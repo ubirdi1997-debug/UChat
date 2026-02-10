@@ -30,8 +30,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     // Check authentication status on mount
     const authenticated = authService.isAuthenticated();
-    setIsAuthenticated(authenticated);
-    if (authenticated) {
+    
+    // For demo mode, set a default user
+    if (!authenticated) {
+      const demoUser: UserProfile = {
+        id: 'demo-user-' + Math.random().toString(36).substr(2, 9),
+        email: 'demo@uchat.example.com',
+        name: 'Demo User',
+        picture: undefined,
+      };
+      setUser(demoUser);
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(authenticated);
       setUser(authService.getUserProfile());
     }
   }, []);
@@ -42,8 +53,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     authService.logout();
-    setIsAuthenticated(false);
-    setUser(null);
+    // Reset to demo user
+    const demoUser: UserProfile = {
+      id: 'demo-user-' + Math.random().toString(36).substr(2, 9),
+      email: 'demo@uchat.example.com',
+      name: 'Demo User',
+      picture: undefined,
+    };
+    setUser(demoUser);
+    setIsAuthenticated(true);
   };
 
   const handleCallback = async () => {

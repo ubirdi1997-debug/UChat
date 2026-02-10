@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
-import { webSocketService, Message } from '../utils/websocket';
+import { Message } from '../utils/websocket';
+import { demoWebSocketService } from '../utils/demo-websocket';
 import { useAuth } from './AuthContext';
 
 interface ChatContextType {
@@ -32,24 +33,25 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   const [currentRoom, setCurrentRoom] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      // Connect to WebSocket when authenticated
-      webSocketService.connect();
+    // Always connect to demo WebSocket for demo mode
+    const wsService = demoWebSocketService;
+    
+    // Connect to WebSocket
+    wsService.connect();
 
-      // Subscribe to connection changes
-      const unsubscribeConnection = webSocketService.onConnectionChange(setIsConnected);
+    // Subscribe to connection changes
+    const unsubscribeConnection = wsService.onConnectionChange(setIsConnected);
 
-      // Subscribe to messages
-      const unsubscribeMessages = webSocketService.onMessage((message) => {
-        setMessages(prev => [...prev, message]);
-      });
+    // Subscribe to messages
+    const unsubscribeMessages = wsService.onMessage((message) => {
+      setMessages(prev => [...prev, message]);
+    });
 
-      return () => {
-        unsubscribeConnection();
-        unsubscribeMessages();
-        webSocketService.disconnect();
-      };
-    }
+    return () => {
+      unsubscribeConnection();
+      unsubscribeMessages();
+      wsService.disconnect();
+    };
   }, [isAuthenticated]);
 
   const sendMessage = useCallback((content: string) => {
@@ -57,21 +59,21 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
       console.error('No room selected');
       return;
     }
-    webSocketService.sendMessage(currentRoom, content);
+    demoWebSocketService.sendMessage(currentRoom, content);
   }, [currentRoom]);
 
   const joinRoom = useCallback((roomId: string) => {
     if (currentRoom) {
-      webSocketService.leaveRoom(currentRoom);
+      demoWebSocketService.leaveRoom();
     }
-    webSocketService.joinRoom(roomId);
+    demoWebSocketService.joinRoom(roomId);
     setCurrentRoom(roomId);
     setMessages([]); // Clear messages when switching rooms
   }, [currentRoom]);
 
   const leaveRoom = useCallback(() => {
     if (currentRoom) {
-      webSocketService.leaveRoom(currentRoom);
+      demoWebSocketService.leaveRoom();
       setCurrentRoom(null);
       setMessages([]);
     }
