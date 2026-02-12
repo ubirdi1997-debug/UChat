@@ -1,38 +1,95 @@
 # UChat 🔐💬
 
-Production-grade Flutter chat application with enterprise-level security powered by **uSafe ID**.
+Production-grade **multi-platform** Flutter chat application with enterprise-level security powered by **uSafe ID**.
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.0+-blue.svg)](https://flutter.dev/)
+[![Web](https://img.shields.io/badge/Web-chat.usafe.in-green.svg)](https://chat.usafe.in)
 [![License](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
+
+## 🌐 Multi-Platform Support
+
+UChat now runs everywhere with unified authentication:
+
+- **🤖 Android** - Native app with deep link support
+- **🌍 Web** - Full-featured web app at [chat.usafe.in](https://chat.usafe.in)
+- **🍎 iOS** - PWA (Progressive Web App) via Safari
+- **💻 Desktop** - Web-based access for all desktop browsers
+
+**One codebase. One OAuth flow. All platforms.**
 
 ## ✨ Features
 
+### Core Features
 - 🔐 **Enterprise-Grade Security** - OAuth 2.0 with PKCE
 - 🎯 **Single Sign-On (SSO)** - Seamless integration with uSafe ecosystem
 - 🔄 **Auto Token Refresh** - Transparent session management
 - 🌓 **Dark Mode** - Beautiful UI with system theme support
-- 💬 **1-to-1 Chat** - Real-time messaging (Phase 1)
+- 💬 **Rich Messaging** - Text, photos, videos, voice messages, location
 - 🚀 **Production-Ready** - Clean architecture, scalable design
-- 🔒 **Secure Storage** - iOS Keychain / Android Keystore
+- 🔒 **Secure Storage** - Platform-specific encryption
 - ⚡ **Future-Proof** - Built for E2E encryption, WebAuthn, and more
+
+### Phase 2 Features
+- 📷 **Media Sharing** - Photos, videos, files, voice messages
+- 📍 **Location Sharing** - GPS with address lookup
+- 😊 **Emoji Picker** - Full emoji library
+- 🔐 **End-to-End Encryption** - AES-256 for all messages
+- 🔢 **MPIN Security** - 4-6 digit PIN protection
+- 👆 **Biometric Auth** - Fingerprint/Face ID
+- ⏱️ **Auto-Delete Messages** - Configurable (1h, 2h, 24h, never)
+
+### Phase 3 Features (NEW)
+- 🌍 **Multi-Platform** - Android, Web, iOS PWA
+- 🔗 **Deep Links** - Seamless Android app launch
+- 📱 **PWA Support** - Install on iOS home screen
+- 🎨 **Responsive UI** - Adapts to mobile, tablet, desktop
+- 🔐 **Platform-Aware Storage** - Secure on all platforms
 
 ## 🏗️ Architecture
 
-UChat follows **Clean Architecture** principles with clear separation of concerns:
+UChat follows **Clean Architecture** principles with multi-platform support:
 
 ```
-┌─────────────────────────────────────────────┐
-│  Presentation Layer (UI + State)            │
-├─────────────────────────────────────────────┤
-│  Business Logic Layer (Providers/Services)  │
-├─────────────────────────────────────────────┤
-│  Data Layer (Models + API Client)           │
-├─────────────────────────────────────────────┤
-│  Infrastructure (Storage + Network)         │
-└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    UChat Multi-Platform                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
+│  │ Android  │  │   Web    │  │ iOS PWA  │  │ Desktop  │   │
+│  │  Native  │  │  Browser │  │  Safari  │  │  Browser │   │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘   │
+│       │             │              │             │          │
+│       └─────────────┴──────────────┴─────────────┘          │
+│                           │                                  │
+│              ┌────────────▼───────────┐                     │
+│              │   Platform Detection   │                     │
+│              │   & Storage Layer      │                     │
+│              └────────────┬───────────┘                     │
+│                           │                                  │
+│              ┌────────────▼───────────┐                     │
+│              │    OAuth 2.0 + PKCE    │                     │
+│              │   uSafe ID Auth        │                     │
+│              └────────────┬───────────┘                     │
+│                           │                                  │
+│              ┌────────────▼───────────┐                     │
+│              │   Backend API          │                     │
+│              │   (api.usafe.in)       │                     │
+│              └────────────────────────┘                     │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-For detailed architecture documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
+**Key Architecture Principles:**
+- **Platform Agnostic**: Single codebase for all platforms
+- **Unified OAuth**: One authentication flow via uSafe ID
+- **Secure Storage**: Platform-specific (Keystore/Keychain/Encrypted localStorage)
+- **Deep Link Support**: Android app launch from web
+- **Responsive UI**: Adapts to mobile, tablet, and desktop
+
+For detailed documentation:
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Original architecture
+- [MULTIPLATFORM.md](MULTIPLATFORM.md) - Multi-platform guide
+- [DEPLOYMENT.md](DEPLOYMENT.md) - Deployment instructions
 
 ## 🚀 Quick Start
 
@@ -40,7 +97,7 @@ For detailed architecture documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
 - Flutter SDK `>=3.0.0`
 - Dart SDK `>=3.0.0`
-- iOS 12+ / Android 5.0+ (API 21+)
+- Android 5.0+ (API 21+) / iOS 12+ / Modern web browser
 
 ### Installation
 
@@ -48,6 +105,39 @@ For detailed architecture documentation, see [ARCHITECTURE.md](ARCHITECTURE.md).
 # Clone the repository
 git clone https://github.com/ubirdi1997-debug/UChat.git
 cd UChat
+
+# Install dependencies
+flutter pub get
+
+# Run on your platform
+flutter run              # Android/iOS
+flutter run -d chrome    # Web
+```
+
+## 🌐 Platform-Specific Setup
+
+### Android
+```bash
+flutter run
+# Or build APK
+flutter build apk --release
+```
+Deep link: `uchat://oauth/callback`
+
+### Web
+```bash
+flutter run -d chrome
+# Or build for production
+flutter build web --release
+```
+URL: `https://chat.usafe.in`
+
+### iOS (PWA)
+1. Open Safari
+2. Navigate to https://chat.usafe.in
+3. Tap Share → "Add to Home Screen"
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 # Install dependencies
 flutter pub get

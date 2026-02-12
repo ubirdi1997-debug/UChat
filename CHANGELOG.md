@@ -11,6 +11,83 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Real-time messaging WebSocket backend
 - Group chat implementation  
 - Push notifications service
+- Native iOS Flutter build
+
+## [3.0.0] - 2024-02-12
+
+### Added - Phase 3: Multi-Platform Support
+
+#### Platform Support
+- **Flutter Web**: Full web application support at chat.usafe.in
+- **Android Deep Links**: `uchat://oauth/callback` for seamless app launch
+- **iOS PWA**: Progressive Web App support for iOS Safari
+- **Desktop Web**: Full desktop browser support
+- **Unified Authentication**: Single OAuth flow across all platforms
+
+#### Platform Detection & Routing
+- **PlatformInfo Utility**: Automatic platform detection (Android/iOS/Web/Desktop)
+- **Platform-Specific URLs**: Automatic redirect URI selection per platform
+- **Deep Link Handler**: Android deep link capture and OAuth callback processing
+- **URL Strategy**: Clean URLs for web (removes # from routes)
+
+#### Storage Strategy
+- **PlatformStorageService**: Unified storage API for all platforms
+- **Android/iOS**: flutter_secure_storage (Keychain/Keystore)
+- **Web**: Encrypted localStorage with AES-256
+- **Automatic Platform Selection**: Transparent storage selection
+
+#### Web Infrastructure
+- **index.html**: Optimized for PWA with CSP headers
+- **manifest.json**: PWA configuration for installability
+- **Nginx Configuration**: Production-ready web server setup
+- **Docker Support**: Containerized deployment option
+- **SSL/HTTPS**: Complete security configuration
+
+#### OAuth Updates
+- **Multi-Platform Redirect URIs**:
+  - Android: `uchat://oauth/callback`
+  - Web/iOS: `https://chat.usafe.in/oauth/callback`
+- **Platform-Aware Config**: Dynamic redirect URL selection
+- **Android Manifest**: Updated deep link scheme
+- **Web Callback Handling**: URL parameter extraction and cleanup
+
+#### Dependencies
+- `universal_html: ^2.2.4` - Cross-platform HTML support
+- `universal_io: ^2.2.2` - Cross-platform IO operations
+- `url_strategy: ^0.2.0` - Web URL strategy (removes #)
+- `uni_links: ^0.5.1` - Deep link handling
+
+#### Documentation
+- **MULTIPLATFORM.md** (13KB): Complete multi-platform architecture guide
+  - Platform support matrix
+  - OAuth flow diagrams
+  - Deep link configuration
+  - Token storage strategies
+  - Web deployment guide
+  
+- **DEPLOYMENT.md** (13KB): Comprehensive deployment guide
+  - Platform-specific build commands
+  - Nginx/Docker configuration
+  - SSL setup with Let's Encrypt
+  - CI/CD pipeline examples
+  - Monitoring and rollback procedures
+
+#### UI & Main App
+- **URL Strategy**: Initialized in main.dart for clean web URLs
+- **Deep Link Initialization**: Automatic on mobile platforms
+- **Platform Detection**: Early initialization for routing
+
+### Changed
+- **AppConfig**: Now platform-aware with dynamic redirect URLs
+- **Main.dart**: Added URL strategy and deep link initialization
+- **AndroidManifest.xml**: Updated OAuth deep link scheme
+- **README.md**: Updated with multi-platform information
+
+### Technical Details
+- **Build Targets**: Android APK/AAB, Web (HTML/CanvasKit), iOS PWA
+- **Deployment**: Nginx, Docker, Firebase Hosting, Cloudflare Pages
+- **OAuth Clients**: Single client ID with multiple redirect URIs
+- **Security**: Platform-specific secure storage, PKCE maintained
 
 ## [2.0.0] - 2024-02-12
 
