@@ -1,0 +1,98 @@
+name: uchat
+description: Production-grade Flutter chat application with uSafe ID authentication
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  flutter_riverpod: ^2.4.0
+  
+  # Networking
+  dio: ^5.4.0
+  pretty_dio_logger: ^1.3.1
+  
+  # OAuth & Authentication
+  flutter_appauth: ^6.0.0
+  jwt_decode: ^0.3.1
+  
+  # Secure Storage
+  flutter_secure_storage: ^9.0.0
+  
+  # Local Storage
+  shared_preferences: ^2.2.2
+  
+  # UI Components
+  cupertino_icons: ^1.0.2
+  flutter_svg: ^2.0.9
+  cached_network_image: ^3.3.0
+  
+  # Utils
+  intl: ^0.18.1
+  uuid: ^4.2.1
+  equatable: ^2.0.5
+  crypto: ^3.0.3
+  
+  # URL Launcher
+  url_launcher: ^6.2.2
+  
+  # Web & Platform Support
+  universal_html: ^2.2.4
+  universal_io: ^2.2.2
+  url_strategy: ^0.2.0
+  uni_links: ^0.5.1
+  
+  # Media & Communication
+  image_picker: ^1.0.5
+  video_player: ^2.8.1
+  record: ^5.0.4
+  audioplayers: ^5.2.1
+  emoji_picker_flutter: ^1.6.3
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  permission_handler: ^11.1.0
+  
+  # WebRTC for calls
+  flutter_webrtc: ^0.9.46
+  
+  # File handling
+  path_provider: ^2.1.1
+  flutter_image_compress: ^2.1.0
+  file_picker: ^6.1.1
+  
+  # Security
+  local_auth: ^2.1.8
+  encrypt: ^5.0.3
+  
+  # Performance
+  cached_video_player: ^2.0.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  mockito: ^5.4.4
+  build_runner: ^2.4.6
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+  
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
