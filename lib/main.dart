@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_strategy/url_strategy.dart';
 import 'core/config/app_config.dart';
 import 'core/config/theme_config.dart';
+import 'core/auth/deep_link_handler.dart';
+import 'core/utils/platform_info.dart';
 import 'features/auth/presentation/pages/splash_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Set URL strategy for web (removes # from URLs)
+  if (PlatformInfo.isWeb) {
+    setPathUrlStrategy();
+  }
+  
+  // Initialize deep link handler for mobile
+  if (PlatformInfo.supportsDeepLinks) {
+    await DeepLinkHandler().initialize();
+  }
   
   runApp(
     const ProviderScope(

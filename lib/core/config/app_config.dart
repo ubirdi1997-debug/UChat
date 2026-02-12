@@ -1,7 +1,9 @@
+import '../utils/platform_info.dart';
+
 /// Application-wide configuration constants
 class AppConfig {
   static const String appName = 'UChat';
-  static const String appVersion = '1.0.0';
+  static const String appVersion = '2.0.0';
   
   // uSafe ID OAuth Configuration
   static const String authBaseUrl = 'https://id.usafe.in';
@@ -12,7 +14,22 @@ class AppConfig {
   
   // OAuth Client Configuration
   static const String clientId = 'uchat-mobile-client';
-  static const String redirectUrl = 'in.usafe.uchat://oauth-callback';
+  
+  // Platform-specific redirect URLs
+  static const String androidRedirectUrl = 'uchat://oauth/callback';
+  static const String webRedirectUrl = 'https://chat.usafe.in/oauth/callback';
+  static const String iosRedirectUrl = webRedirectUrl; // iOS uses web PWA
+  
+  /// Get the appropriate redirect URL for the current platform
+  static String get redirectUrl {
+    if (PlatformInfo.isAndroid) {
+      return androidRedirectUrl;
+    } else if (PlatformInfo.isWeb || PlatformInfo.isIOS) {
+      return webRedirectUrl;
+    }
+    return webRedirectUrl; // Default to web for other platforms
+  }
+  
   static const List<String> scopes = ['openid', 'profile', 'email', 'chat'];
   
   // Token Configuration

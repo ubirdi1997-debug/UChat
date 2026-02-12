@@ -41,6 +41,12 @@ dependencies:
   # URL Launcher
   url_launcher: ^6.2.2
   
+  # Web & Platform Support
+  universal_html: ^2.2.4
+  universal_io: ^2.2.2
+  url_strategy: ^0.2.0
+  uni_links: ^0.5.1
+  
   # Media & Communication
   image_picker: ^1.0.5
   video_player: ^2.8.1
