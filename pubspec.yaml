@@ -40,6 +40,31 @@ dependencies:
   
   # URL Launcher
   url_launcher: ^6.2.2
+  
+  # Media & Communication
+  image_picker: ^1.0.5
+  video_player: ^2.8.1
+  record: ^5.0.4
+  audioplayers: ^5.2.1
+  emoji_picker_flutter: ^1.6.3
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  permission_handler: ^11.1.0
+  
+  # WebRTC for calls
+  flutter_webrtc: ^0.9.46
+  
+  # File handling
+  path_provider: ^2.1.1
+  flutter_image_compress: ^2.1.0
+  file_picker: ^6.1.1
+  
+  # Security
+  local_auth: ^2.1.8
+  encrypt: ^5.0.3
+  
+  # Performance
+  cached_video_player: ^2.0.4
 
 dev_dependencies:
   flutter_test:

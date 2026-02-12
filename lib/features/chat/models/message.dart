@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'message_media.dart';
 
 /// Message status enum
 enum MessageStatus {
@@ -19,6 +20,10 @@ class Message extends Equatable {
   final DateTime timestamp;
   final DateTime? editedAt;
   final bool isDeleted;
+  final MessageType messageType;
+  final MessageMedia? media;
+  final bool isEncrypted;
+  final DateTime? expiresAt; // Auto-delete timestamp
   
   const Message({
     required this.id,
@@ -29,6 +34,10 @@ class Message extends Equatable {
     required this.timestamp,
     this.editedAt,
     this.isDeleted = false,
+    this.messageType = MessageType.text,
+    this.media,
+    this.isEncrypted = false,
+    this.expiresAt,
   });
   
   /// Create from JSON
@@ -47,6 +56,17 @@ class Message extends Equatable {
           ? DateTime.parse(json['edited_at'] as String)
           : null,
       isDeleted: json['is_deleted'] as bool? ?? false,
+      messageType: MessageType.values.firstWhere(
+        (t) => t.name == json['message_type'],
+        orElse: () => MessageType.text,
+      ),
+      media: json['media'] != null
+          ? MessageMedia.fromJson(json['media'] as Map<String, dynamic>)
+          : null,
+      isEncrypted: json['is_encrypted'] as bool? ?? false,
+      expiresAt: json['expires_at'] != null
+          ? DateTime.parse(json['expires_at'] as String)
+          : null,
     );
   }
   
@@ -61,6 +81,10 @@ class Message extends Equatable {
       'timestamp': timestamp.toIso8601String(),
       'edited_at': editedAt?.toIso8601String(),
       'is_deleted': isDeleted,
+      'message_type': messageType.name,
+      'media': media?.toJson(),
+      'is_encrypted': isEncrypted,
+      'expires_at': expiresAt?.toIso8601String(),
     };
   }
   
@@ -74,6 +98,10 @@ class Message extends Equatable {
     DateTime? timestamp,
     DateTime? editedAt,
     bool? isDeleted,
+    MessageType? messageType,
+    MessageMedia? media,
+    bool? isEncrypted,
+    DateTime? expiresAt,
   }) {
     return Message(
       id: id ?? this.id,
@@ -84,6 +112,10 @@ class Message extends Equatable {
       timestamp: timestamp ?? this.timestamp,
       editedAt: editedAt ?? this.editedAt,
       isDeleted: isDeleted ?? this.isDeleted,
+      messageType: messageType ?? this.messageType,
+      media: media ?? this.media,
+      isEncrypted: isEncrypted ?? this.isEncrypted,
+      expiresAt: expiresAt ?? this.expiresAt,
     );
   }
   
@@ -97,5 +129,9 @@ class Message extends Equatable {
     timestamp,
     editedAt,
     isDeleted,
+    messageType,
+    media,
+    isEncrypted,
+    expiresAt,
   ];
 }
